@@ -27,7 +27,20 @@ class GPTLogic:
             raise NonApplicableException("Failure to parse response into boolean")
 
     def getInt(self, prompt) -> int:
-        pass
+        #TODO: add tests
+        completion = openai.ChatCompletion.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "Please respond only with an integer, if the result is a floating point, please truncate it. if you cannot meaningfully respond with an integer, please respond with \"Non-Applicable\"."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        response = completion.choices[0].message["content"]
+        if "Non-Applicable" in response:
+            print("Raw response: ", response)
+            raise NonApplicableException("Failure to parse response into boolean")
+        else:
+            return int(response)
 
     def getFloat(self, prompt) -> float:
         pass
