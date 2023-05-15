@@ -3,7 +3,7 @@ from Exceptions import *
 
 
 class GPTLogic:
-    def __init__(self, API_KEY, model):
+    def __init__(self, API_KEY, model="gpt-3.5-turbo"):
         openai.organization = "org-skb20jFo5HaLMpp59vTNxFu9"
         openai.api_key = API_KEY
         self.model = model
