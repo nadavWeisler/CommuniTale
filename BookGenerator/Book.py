@@ -10,6 +10,5 @@ class Book:
         self.images: List[BookImage] = []
 
 
-
 if __name__ == "__main__":
     print("Hello, World!")
