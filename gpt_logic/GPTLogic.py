@@ -39,7 +39,7 @@ class GPTLogic:
         response = completion.choices[0].message["content"]
         if "Non-Applicable" in response:
             print("Raw response: ", response)
-            raise NonApplicableException("Failure to parse response into boolean")
+            raise NonApplicableException("Failure to parse response into an integer")
         else:
             return int(response)
 
