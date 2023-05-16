@@ -7,7 +7,6 @@ class GPTLogic:
         openai.organization = "org-skb20jFo5HaLMpp59vTNxFu9"
         openai.api_key = API_KEY
         self.model = model
-        pass
 
     def getBool(self, prompt) -> bool:
         completion = openai.ChatCompletion.create(
@@ -32,7 +31,7 @@ class GPTLogic:
             model=self.model,
             messages=[
                 {"role": "system",
-                 "content": "Please respond only with an integer, if the result is a floating point, please truncate it. if you cannot meaningfully respond with an integer, please respond with \"Non-Applicable\"."},
+                 "content": "Please respond only with an integer in digits, if the result is a floating point, please truncate it. if you cannot meaningfully respond with an integer, please respond with \"Non-Applicable\"."},
                 {"role": "user", "content": prompt}
             ]
         )

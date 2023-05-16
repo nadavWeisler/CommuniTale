@@ -2,6 +2,7 @@ from typing import List
 
 from BookGenerator.BookImage import BookImage
 from BookGenerator.PageText import PageText
+from BookGenerator.BookTheme import BookTheme
 
 
 class Book:
