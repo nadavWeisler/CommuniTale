@@ -13,3 +13,9 @@ if __name__ == "__main__":
         print("2+2 equals 4")
     else:
         print("2+2 does not equal 4")
+
+    print(logic.getFloat("five over seven"))
+
+    print("JK Rowling wrote these books:")
+    for item in logic.getList("books by J.K Rowling"):
+        print(item)

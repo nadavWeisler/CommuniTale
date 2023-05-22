@@ -43,7 +43,21 @@ class GPTLogic:
             return int(response)
 
     def getFloat(self, prompt) -> float:
-        pass
+        # TODO: add tests
+        completion = openai.ChatCompletion.create(
+            model=self.model,
+            messages=[
+                {"role": "system",
+                 "content": "Please respond only with a floating point number using digits. if you cannot meaningfully respond with an integer, please respond with \"Non-Applicable\"."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        response = completion.choices[0].message["content"]
+        if "Non-Applicable" in response:
+            print("Raw response: ", response)
+            raise NonApplicableException("Failure to parse response into an integer")
+        else:
+            return float(response)
 
     def getString(self, prompt: str, role="user") -> str:
         completion = openai.ChatCompletion.create(
@@ -55,4 +69,23 @@ class GPTLogic:
         return completion.choices[0].message["content"]
 
     def getList(self, prompt) -> list:
-        pass
+        # TODO: add tests
+        completion = openai.ChatCompletion.create(
+            model=self.model,
+            messages=[
+                {"role": "system",
+                 "content": "Please respond with a list of strings,"
+                            "the strings should be separated only by a single comma,"
+                            "Please wrap the list in square brackets."
+                            "if you cannot meaningfully respond with a list,"
+                            "please respond with \"Non-Applicable\" without wrapping the response in brackets."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        response = completion.choices[0].message["content"]
+        if response[0] == "[" and response[-1] == "]":
+            return response[1:-1].split(",")
+        else:
+            print("Raw response: ", response)
+            raise NonApplicableException("Failure to parse response into an integer")
+
