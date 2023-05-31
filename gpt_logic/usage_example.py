@@ -4,7 +4,7 @@ import os
 if __name__ == "__main__":
     logic = GPTLogic(os.getenv("GPTKEY"))
 
-    if logic.getBool("Were you developed by OpenAI?"):
+    if logic.getBool("Were you developed by OpenAI?", n=6):
         print("GPT was developed by OpenAI!")
     else:
         print("GPT was not developed by OpenAI")

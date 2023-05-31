@@ -1,3 +1,5 @@
+from typing import Callable
+
 import openai
 from Exceptions import *
 
@@ -7,21 +9,43 @@ class GPTLogic:
         openai.api_key = API_KEY
         self.model = model
 
-    def getBool(self, prompt) -> bool:
+    def getBool(self, prompt, n=1) -> bool:
+        """
+        gets a boolean from a GPT prompt, the n parameter will ask for several responses from GPT and return the bool
+        that returned from the most responses, this results in more accurate responses.
+        :param prompt:
+        :param n:
+        :return:
+        """
         completion = openai.ChatCompletion.create(
             model=self.model,
             messages=[
                 {"role": "system", "content": "You can respond only with \"True\", \"False\" or \"Non-Applicable\"."},
                 {"role": "user", "content": prompt}
-            ]
+            ],
+            n=n
         )
-        response = completion.choices[0].message["content"]
-        if "True" in response:
+        results = {
+            "true": 0,
+            "false": 0,
+            "invalid": 0
+        }
+
+        for choice in completion.choices:
+            if "True" in choice.message["content"]:
+                results["true"] += 1
+            elif "False" in choice.message["content"]:
+                results["false"] += 1
+            else:
+                results["invalid"] += 1
+
+        result = max(*results.items(), key=lambda x: x[1])[0]
+        if result == "true":
             return True
-        elif "False" in response:
+        elif result == "false":
             return False
         else:
-            print("Raw response: ", response)
+            print("Raw response: ", results)
             raise NonApplicableException("Failure to parse response into boolean")
 
     def getInt(self, prompt) -> int:
@@ -87,4 +111,3 @@ class GPTLogic:
         else:
             print("Raw response: ", response)
             raise NonApplicableException("Failure to parse response into an integer")
-
