@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useJsonPost = (url:string = "http://localhost:5000/book") => {
+export const useJsonPost = (url:string = "http://localhost:5000/book"):[(data: string) => Promise<any>, boolean] => {
   const [loading, setLoading] = useState(false);
 
   const postJson = async (data:string) => {

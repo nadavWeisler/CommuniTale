@@ -4,8 +4,10 @@ import openai
 import os
 class PromptGenerator:
     MOCK_REQUEST = {
-        "age": 10,
-        "speech_therapy_goals": ["improve articulation of 's' and 'r' sounds", "improve fluency"],
+        "age": "10",
+        "gender": "male",
+        "setting": "Superheroes",
+        "issue": "pronouncing the sound of the letter 's'",
     }
     default_messages = [
         {"role": "system",
@@ -91,15 +93,23 @@ class PromptGenerator:
     def __init__(self):
         openai.api_key = os.getenv("GPT_API_KEY")
 
-    def getTextPromptFromRequest(self, request = MOCK_REQUEST) -> List[Dict[str, str]]:
+    def getTextPromptFromRequest(self, request: dict = MOCK_REQUEST) -> List[Dict[str, str]]:
         """
         Gets a request with parameters for a book, returns a prompt for gpt that will create a story based on
         the parameters.
         :param request:
         :return:
         """
+        params = {
+            'child': "The story should be suitable for reading to a " + request['age'] + "year old " + request['gender'] + ".",
+            'setting': "The story should revolve around " + request['setting'],
+            'issue': self.getIssue(request)
+        }
 
-        new_messages = [{"role": "user", "content": "Create another short story in the same style, while still focusing on the 's' sound"},]
+        new_messages = [{"role": "user", "content": "Create another short story in the same style. " +
+                         params['child'] +
+                         params['setting'] +
+                         params['issue']}]
         return self.default_messages + new_messages
 
 
@@ -113,14 +123,22 @@ class PromptGenerator:
         chat_prompt = self.default_messages + [{"role": "user", "content": "create another story"},
                                                {"role": "assistant", "content": story},
                                                {"role": "user", "content": "create a prompt suitable for dalle-2 to generate a picture from the above story. Don't use names. use the digital art smooth descriptors and other suitable descriptors. Add objects or details about the background. Keep the prompt short"},]
-        # return openai.ChatCompletion.create(
-        #     model="gpt-4-0314",
-        #     messages=chat_prompt,
-        #     temperature=0.5,
-        #     max_tokens=1000,
-        #     n=1
-        # )['choices'][0]['message']['content']
-        return """A joyful, smooth digital illustration of a playful lamb leaping in a lush, green meadow under a vivid, colorful rainbow stretching across the sky."""
+        return openai.ChatCompletion.create(
+            model="gpt-4-0314",
+            messages=chat_prompt,
+            temperature=0.5,
+            max_tokens=1000,
+            n=1
+        )['choices'][0]['message']['content']
+        # return """A joyful, smooth digital illustration of a playful lamb leaping in a lush, green meadow under a vivid, colorful rainbow stretching across the sky."""
+
+    def getIssue(self, request):
+        if 'pronouncing' in request['issue']:
+            return "The story should focus on " + request['issue']
+        elif 'flexibility' in request['issue']:
+            return "The story should focus on thought flexibility and problem solving"
+        else:
+            return "The story should focus on improving language skills"
 
 
 if __name__ == "__main__":
