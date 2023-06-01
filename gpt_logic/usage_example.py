@@ -1,4 +1,4 @@
-from GPTLogic import GPTLogic
+from gpt_logic.GPTLogic import GPTLogic
 import os
 
 if __name__ == "__main__":

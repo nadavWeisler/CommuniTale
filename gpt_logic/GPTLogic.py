@@ -1,7 +1,7 @@
 from typing import Callable
 
 import openai
-from Exceptions import *
+from gpt_logic.Exceptions import *
 
 
 class GPTLogic:
