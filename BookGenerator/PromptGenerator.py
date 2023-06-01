@@ -1,5 +1,6 @@
 from typing import List, Dict
-from TextGenerator import TextGenerator
+import openai
+
 import os
 class PromptGenerator:
     MOCK_REQUEST = {
@@ -88,7 +89,7 @@ class PromptGenerator:
          "content": """A charming, smooth digital illustration of a small, content snail nestled within the petals of a vibrant scarlet flower in a lush, serene garden."""},
     ]
     def __init__(self):
-        pass
+        openai.api_key = os.getenv("GPT_API_KEY")
 
     def getTextPromptFromRequest(self, request = MOCK_REQUEST) -> List[Dict[str, str]]:
         """
@@ -112,11 +113,14 @@ class PromptGenerator:
         chat_prompt = self.default_messages + [{"role": "user", "content": "create another story"},
                                                {"role": "assistant", "content": story},
                                                {"role": "user", "content": "create a prompt suitable for dalle-2 to generate a picture from the above story. Don't use names. use the digital art smooth descriptors and other suitable descriptors. Add objects or details about the background. Keep the prompt short"},]
-        generator = TextGenerator()
-        response_dict = generator.getStoriesFromPrompt(chat_prompt)
-        choices_dict = response_dict["choices"][0]
-        prompt = choices_dict["message"]["content"]
-        return prompt
+        # return openai.ChatCompletion.create(
+        #     model="gpt-4-0314",
+        #     messages=chat_prompt,
+        #     temperature=0.5,
+        #     max_tokens=1000,
+        #     n=1
+        # )['choices'][0]['message']['content']
+        return """A joyful, smooth digital illustration of a playful lamb leaping in a lush, green meadow under a vivid, colorful rainbow stretching across the sky."""
 
 
 if __name__ == "__main__":
