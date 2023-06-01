@@ -54,13 +54,16 @@ class Book:
 
 
 if __name__ == "__main__":
-    texts = ["Story about a dog", "Stoty about a cat", "Stoty about a horse"]
+    texts = [
+        {"title": "Dog", "story": "Story about a dog"},
+        {"title": "Cat", "story": "Stoty about a cat"},
+        {"title": "Horse", "story": "Stoty about a horse"},
+    ]
     images = [
         "https://www.freepnglogos.com/uploads/dog-png/bow-wow-gourmet-dog-treats-are-healthy-natural-low-4.png",
         "https://e7.pngegg.com/pngimages/549/292/png-clipart-cat-food-kitten-dog-adorable-cat-mammal-cat-like-mammal-thumbnail.png",
         "https://parspng.com/wp-content/uploads/2022/08/horsepng.parspng.com-2.png",
     ]
-    titles = ["Dog", "Cat", "Horse"]
-    book = Book(texts, images, titles)
+    book = Book(texts, images)
     book.generate()
     os.startfile("output.pdf")
