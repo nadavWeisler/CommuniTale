@@ -4,6 +4,9 @@ import json
 
 from BookGenerator.BookGenerator import BookGenerator
 from BookGenerator.Book import Book
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all route

@@ -9,7 +9,7 @@ class ImageGenerator:
 
     def __init__(self):
         self.image_url = ""
-        openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = os.getenv("GPT_API_KEY")
         self.API_K = openai.api_key
 
     def getImageFromPrompt(self, prompt: str):
