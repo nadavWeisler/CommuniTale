@@ -11,17 +11,18 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
 class Book:
     def __init__(self, text_pages: List[Dict[str, str]], images_url_lst: List[str]):
         self.text_pages = text_pages
-        self.images_lst = [self.convert_url_to_png(url) for url in images_url_lst]
+        self.images_lst = [
+            self.convert_url_to_png(url, ind) for ind, url in enumerate(images_url_lst)
+        ]
 
-    def convert_url_to_png(self, url: str) -> str:
+    def convert_url_to_png(self, url: str, num_of_img: int) -> str:
         """
         Convert url of an image to png file
         """
-        random_id = random.randint(0, 10000)
         image_url = requests.get(url, timeout=5)
-        with open(f"{random_id}image.png", "wb") as f:
+        with open(f"{num_of_img}image.png", "wb") as f:
             f.write(image_url.content)
-        return f"{random_id}image.png"
+        return f"{num_of_img}image.png"
 
     def generate(self):
         """
