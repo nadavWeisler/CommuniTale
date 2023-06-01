@@ -34,7 +34,7 @@ class ImageGenerator:
         ##########################################################
 
         # the rest are default, for now set to this - eventually I will get it in prompt:
-        img_size = "256x256"
+        img_size = "1024x1024"
 
         self.API_K
         dall_e_response = openai.Image.create(api_key=self.API_K, prompt=prompt, size=img_size)
