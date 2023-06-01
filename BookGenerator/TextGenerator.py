@@ -19,7 +19,7 @@ class TextGenerator:
         :return:
         """
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4-0314",  # model types: gpt-3.5-turbo, gpt-4-0314, gpt-4, gpt-3.5-turbo-0301
             messages=[{"role": "system", "content": "you are a childerns book writer"}]
             + messages,
             temperature=0.5,
