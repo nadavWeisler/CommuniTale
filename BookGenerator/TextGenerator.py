@@ -1,6 +1,11 @@
+import os
+
+import openai
+
+
 class TextGenerator:
     def __init__(self):
-        pass
+        openai.api_key = os.getenv('GPT_API_KEY')
 
     def getStoryFromPrompt(self, prompt: str) -> str:
         """
@@ -8,8 +13,21 @@ class TextGenerator:
         :param prompt:
         :return:
         """
-        pass
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "you are a childerns book writer"},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.5,
+            max_tokens=1000,
+        )
+        return response
 
 
 if __name__ == "__main__":
-    print("Hello, World!")
+    generator = TextGenerator()
+    response_dict = generator.getStoryFromPrompt("tell me a story about a dog")
+    choices_dict = response_dict["choices"][0]
+    story = choices_dict["message"]["content"]
+    print(story)
