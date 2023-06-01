@@ -1,5 +1,3 @@
-from typing import Callable
-
 import openai
 from gpt_logic.Exceptions import *
 
