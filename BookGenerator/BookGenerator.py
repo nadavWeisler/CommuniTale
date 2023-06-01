@@ -23,13 +23,13 @@ class BookGenerator:
         return self.generateBook()
 
     def getBookAssets(self, numPages, request):
-        textPrompt = PromptGenerator().getTextPromptFromRequest(request)
-        self.stories = TextGenerator().getStoryFromPrompt(textPrompt, numPages)
-        self.imagePrompts = [PromptGenerator().getImagePromptFromStory(story) for story in self.stories]
+        textPrompts = PromptGenerator().getTextPromptFromRequest(request)
+        self.stories = TextGenerator().getStoriesFromPrompt(messages=textPrompts, n=numPages)
+        self.imagePrompts = [PromptGenerator().getImagePromptFromStory(story['story']) for story in self.stories]
         self.images = [ImageGenerator().getImageFromPrompt(imagePrompt) for imagePrompt in self.imagePrompts]
 
     def generateBook(self):
-        book = Book(self.stories, self.images, [""]*len(self.stories)).generate()
+        book = Book(self.stories, self.images).generate()
         return book
 
 

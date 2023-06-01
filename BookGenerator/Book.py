@@ -1,6 +1,8 @@
 import os
-from typing import List
+from typing import List, Dict
 import requests
+
+import random
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
@@ -8,22 +10,19 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
 
 
 class Book:
-    def __init__(
-        self, text_pages: List[str], images_url_lst: List[str], title: List[str]
-    ):
+    def __init__(self, text_pages: List[Dict[str, str]], images_url_lst: List[str]):
         self.text_pages = text_pages
         self.images_lst = [self.convert_url_to_png(url) for url in images_url_lst]
-        self.title = title
-        self.image_counter = 0
 
     def convert_url_to_png(self, url: str) -> str:
         """
         Convert url of an image to png file
         """
+        random_id = random.randint(0, 10000)
         image_url = requests.get(url, timeout=5)
-        with open(f"{self.image_counter}image.png", "wb") as f:
+        with open(f"{random_id}image.png", "wb") as f:
             f.write(image_url.content)
-        self.image_counter += 1
+        return f"{random_id}image.png"
 
     def generate(self):
         """
@@ -35,10 +34,10 @@ class Book:
             title_style = getSampleStyleSheet()["Title"]
             paragraph_style = getSampleStyleSheet()["BodyText"]
 
-            page_title = Paragraph(self.title[ind], title_style)
+            page_title = Paragraph(text["title"], title_style)
             content.append(page_title)
 
-            paragraph_text = text
+            paragraph_text = text["story"]
             paragraph = Paragraph(paragraph_text, paragraph_style)
             content.append(paragraph)
 
@@ -55,9 +54,16 @@ class Book:
 
 
 if __name__ == "__main__":
-    texts = ["Story about a dog", "Stoty about a cat", "Stoty about a horse"]
-    images = ["../Pics/dog.png", "../Pics/cat.png", "../Pics/horse.png"]
-    titles = ["Dog", "Cat", "Horse"]
-    book = Book(texts, images, titles)
+    texts = [
+        {"title": "Dog", "story": "Story about a dog"},
+        {"title": "Cat", "story": "Stoty about a cat"},
+        {"title": "Horse", "story": "Stoty about a horse"},
+    ]
+    images = [
+        "https://www.freepnglogos.com/uploads/dog-png/bow-wow-gourmet-dog-treats-are-healthy-natural-low-4.png",
+        "https://e7.pngegg.com/pngimages/549/292/png-clipart-cat-food-kitten-dog-adorable-cat-mammal-cat-like-mammal-thumbnail.png",
+        "https://parspng.com/wp-content/uploads/2022/08/horsepng.parspng.com-2.png",
+    ]
+    book = Book(texts, images)
     book.generate()
     os.startfile("output.pdf")
