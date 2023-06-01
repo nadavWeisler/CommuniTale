@@ -1,33 +1,35 @@
-from TextGenerator import TextGenerator
-from PromptGenerator import PromptGenerator
-from ImageGenerator import ImageGenerator
-from Book import Book
+from BookGenerator.TextGenerator import TextGenerator
+from BookGenerator.PromptGenerator import PromptGenerator
+from BookGenerator.ImageGenerator import ImageGenerator
+from BookGenerator.Book import Book
+
 
 class BookGenerator:
     def __init__(self):
+        self.storyPrompt = ""
         self.stories = []
         self.imagePrompts = []
         self.images = []
-        pass
 
-    def getBook(self, textPrompt: str, numPages=5):
+    def getBook(self, request: dict, numPages=5):
         """
         main entry point for BookGenerator. will get a string with a GPT prompt for a story, should not return anything
+        :param request:
         :param numPages:
-        :param textPrompt:
         :return:
         """
-        self.getBookAssets(numPages, textPrompt)
-        
+        self.getBookAssets(numPages, request)
+
         return self.generateBook()
 
-    def getBookAssets(self, numPages, textPrompt):
+    def getBookAssets(self, numPages, request):
+        textPrompt = PromptGenerator().getTextPromptFromRequest(request)
         self.stories = [TextGenerator().getStoryFromPrompt(textPrompt) for _ in range(numPages)]
         self.imagePrompts = [PromptGenerator().getImagePromptFromStory(story) for story in self.stories]
         self.images = [ImageGenerator().getImageFromPrompt(imagePrompt) for imagePrompt in self.imagePrompts]
 
     def generateBook(self):
-        book = Book(self.stories, self.images)
+        book = Book(self.stories, self.images).generate()
         return book
 
 
