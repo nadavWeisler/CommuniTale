@@ -18,9 +18,7 @@ class Book:
 
     def convert_url_to_png(self, url: str) -> str:
         """
-        Convert url to png
-        :param url: url of image
-        :return: path to png
+        Convert url of an image to png file
         """
         image_url = requests.get(url, timeout=5)
         with open(f"{self.image_counter}image.png", "wb") as f:
@@ -28,6 +26,9 @@ class Book:
         self.image_counter += 1
 
     def generate(self):
+        """
+        Generate pdf file with text and images
+        """
         doc = SimpleDocTemplate("output.pdf", pagesize=letter)
         content = []
         for ind, text in enumerate(self.text_pages):
