@@ -9,8 +9,11 @@ app = Flask(__name__)
 CORS(app)  # This will enable CORS for all route
 
 
-@app.route('/book', methods=['POST'])
+@app.route('/book', methods=['POST', 'OPTIONS'])
 def book():
+    if request.method == 'OPTIONS':
+        # Preflight request. Reply successfully:
+        return jsonify({'success': True}), 200
     if not request.json:
         return jsonify({'error': 'No id provided'}), 400
     print(request.json)
