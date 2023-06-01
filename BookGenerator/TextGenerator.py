@@ -11,7 +11,7 @@ class TextGenerator:
     def __init__(self):
         openai.api_key = os.getenv("GPT_API_KEY")
 
-    def getStoriesFromPrompt(self, messages: List[Dict[str, str]], n=1) -> List[str]:
+    def getStoriesFromPrompt(self, messages: List[Dict[str, str]], n=1) -> List[Dict[str]]:
         """
         Main entry point for TextGenerator, will get a string with a prompt and should return a story that fits the prompt
         :param n:
@@ -30,8 +30,13 @@ class TextGenerator:
         story_lst = []
         for i in range(n):
             choices_dict = response["choices"][i]
-            story = choices_dict["message"]["content"]
-            story_lst.append(story)
+            story_msg = choices_dict["message"]["content"]
+            story_lst.append(story_msg)
+        
+
+        for story in story_lst:
+            splited_lst = story.split('"')
+            # title
         return story_lst
 
 
@@ -40,4 +45,4 @@ if __name__ == "__main__":
     prompt_dict = prompt_gen.getTextPromptFromRequest()
     text_gen = TextGenerator()
     story_output = text_gen.getStoriesFromPrompt(prompt_dict)
-    print(story_output)
+    print(story_output[0].split('"'))
