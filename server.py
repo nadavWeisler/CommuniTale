@@ -22,4 +22,5 @@ def book():
 
 
 if __name__ == '__main__':
-    app.run(port=5000)  # Runs the server in development mode on port 5000.
+    print(BookGenerator().getBook(dict()))
+    #app.run(port=5000)  # Runs the server in development mode on port 5000.

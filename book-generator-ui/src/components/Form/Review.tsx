@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { Avatar } from '@mui/material';
-import cover_example from '../../assets/cover_example.png';
+import BookPreview from './BookPreview';
 
 export default function Review() {
     return (
@@ -9,12 +8,7 @@ export default function Review() {
             <Typography variant="h6" gutterBottom>
                 Review Book
             </Typography>
-            <Avatar
-                alt="Cover"
-                src={cover_example}
-                sx={{ width: 500, height: 300 }}
-                variant='square'
-            />
+            <BookPreview />
         </React.Fragment>
     );
 }
