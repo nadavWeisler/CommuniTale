@@ -41,7 +41,8 @@ class BookGenerator:
         self.images = [ImageGenerator().getImageFromPrompt(imagePrompt) for imagePrompt in self.imagePrompts]
 
     def generateBook(self):
-        book = Book(self.stories, self.images).generate()
+        book = Book(self.stories, self.images)
+        book.generate()
         return book
 
 
