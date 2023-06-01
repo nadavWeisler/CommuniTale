@@ -24,10 +24,10 @@ class BookGenerator:
 
     def getBookAssets(self, numPages, request):
         default_request = {
-            "age": "10",
-            "gender": "male",
-            "setting": "Superheroes",
-            "issue": "pronouncing the sound of the letter 's'",
+            "age": "4",
+            "gender": "girl",
+            "setting": "Animals",
+            "issue": "pronouncing the sound of the letter 'r'",
         }
         try:
             textPrompts = PromptGenerator().getTextPromptFromRequest(request)
