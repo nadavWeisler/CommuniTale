@@ -7,3 +7,4 @@ book-generator-ui\node_modules
 node_modules
 output.pdf
 __pycache__
+book-generator-ui/package-lock.json
