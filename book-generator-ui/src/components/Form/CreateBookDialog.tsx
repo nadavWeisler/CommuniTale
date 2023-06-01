@@ -13,19 +13,6 @@ import { DialogContent, DialogTitle } from '@mui/material';
 import BookForm from './BookForm';
 import { useJsonPost } from './apiUtils';
 
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <BookForm />;
-    case 1:
-      return <Review />;
-    case 2:
-      return <PrintForm />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
 interface BookFormProps {
   showFormDialog: boolean;
   closeFormDialog: () => void;
@@ -35,6 +22,21 @@ export default function CreateBookDialog(props: BookFormProps) {
   const { showFormDialog } = props;
   const [activeStep, setActiveStep] = React.useState(0);
   const [postJson, loading] = useJsonPost();
+  const [formJson, setFormJson] = React.useState({});
+
+  function getStepContent(step: number) {
+    switch (step) {
+      case 0:
+        return <BookForm setBookDetails={setFormJson} />;
+      case 1:
+        return <Review />;
+      case 2:
+        return <PrintForm />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
   function closeForm() {
     setActiveStep(0);
     props.closeFormDialog();
@@ -50,20 +52,28 @@ export default function CreateBookDialog(props: BookFormProps) {
 
   React.useEffect(() => {
     if (activeStep === 1) {
-      postJson(JSON.stringify({ book: "book"}));
-    }}, [activeStep]); //eslint-disable-line
+      postJson(JSON.stringify(formJson));
+    }
+  }, [activeStep]); //eslint-disable-line
 
   return (
     <Dialog open={showFormDialog} onClose={closeForm}>
       <DialogTitle>Create Your Own Book</DialogTitle>
       <DialogContent>
-        <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        {
+          loading &&
+          <div>Loading...</div>
+        }
+        {
+          !loading &&
+          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        }
         {activeStep === steps.length ? (
           <React.Fragment>
             <Typography variant="h5" gutterBottom>
