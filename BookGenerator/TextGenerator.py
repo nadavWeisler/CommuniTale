@@ -7,6 +7,7 @@ from PromptGenerator import PromptGenerator
 
 
 class TextGenerator:
+    
     def __init__(self):
         openai.api_key = os.getenv("GPT_API_KEY")
 
