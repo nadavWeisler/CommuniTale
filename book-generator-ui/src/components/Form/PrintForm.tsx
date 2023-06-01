@@ -1,33 +1,11 @@
-import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import React, { useState } from 'react';
 
-const products = [
-  {
-    name: 'Product 1',
-    desc: 'A nice thing',
-    price: '$9.99',
-  },
-  {
-    name: 'Product 2',
-    desc: 'Another thing',
-    price: '$3.45',
-  },
-  {
-    name: 'Product 3',
-    desc: 'Something else',
-    price: '$6.51',
-  },
-  {
-    name: 'Product 4',
-    desc: 'Best thing of all',
-    price: '$14.11',
-  },
-  { name: 'Shipping', desc: '', price: 'Free' },
-];
 const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
   { name: 'Card type', detail: 'Visa' },
@@ -36,14 +14,63 @@ const payments = [
   { name: 'Expiry date', detail: '04/2024' },
 ];
 
+
+
 export default function PrintForm() {
+  const [format, setFormat] = useState('pdf');
+
+  function getProductFromFormat() {
+    let products = [{
+      name: 'Your new book',
+      desc: 'Pro subscription',
+      price: '$9.99',
+    }];
+    if (format === 'pdf') {
+      products.push({ 
+        name: 'PDF format',
+        desc: 'Another thing',
+        price: 'free',
+      });
+    } else if(format === 'printed') {
+      products.push({
+        name: 'Printed format',
+        desc: 'Using Lupa service, you will receive an email for update your shipping address',
+        price: '$9.99',
+      });
+    }
+    return products;
+  }
+
+  function getPrice() {
+    let price = 9.99;
+    if (format === 'pdf') {
+      price += 0;
+    } else if(format === 'printed') {
+      price += 9.99;
+    }
+    return price;
+  }
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Order summary
       </Typography>
+      <FormControl>
+        <FormLabel id="demo-row-radio-buttons-group-label">Format</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+          value={format}
+          onChange={(e) => setFormat(e.target.value)}
+        >
+          <FormControlLabel value="pdf" control={<Radio />} label="PDF" />
+          <FormControlLabel value="printed" control={<Radio />} label="Printed" />
+        </RadioGroup>
+      </FormControl>
       <List disablePadding>
-        {products.map((product) => (
+        {getProductFromFormat().map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
             <ListItemText primary={product.name} secondary={product.desc} />
             <Typography variant="body2">{product.price}</Typography>
@@ -52,7 +79,7 @@ export default function PrintForm() {
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $34.06
+            {getPrice()}
           </Typography>
         </ListItem>
       </List>

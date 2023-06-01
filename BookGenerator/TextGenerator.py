@@ -3,7 +3,7 @@ from typing import List, Dict
 
 import openai
 
-from PromptGenerator import PromptGenerator
+from BookGenerator.PromptGenerator import PromptGenerator
 
 
 class TextGenerator:
