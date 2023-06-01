@@ -1,4 +1,4 @@
-export const CoreValues = [
+export const CORE_VALUES = [
     "Friendship",
     "Honesty",
     "Compassion",
@@ -6,12 +6,59 @@ export const CoreValues = [
     "Responsibility"
 ]
 
-export const SemanticFields = [
+export const AGE = [
+    "3-5",
+    "6-8",
+    "9-12"
+]
+
+export const GENDER = [
+    "Male",
+    "Female",
+    "Rather not say"
+]
+
+export const THEMES = [
     "Cars",
     "Food",
     "Sports",
     "Music",
     "Animals"
+]
+
+export const CONDITIONS = [
+    "Phonemic",
+    "Articulation",
+    "Problem Solving"
+]
+
+export const PHONEMS = [
+    "B",
+    "D",
+    "F",
+    "G",
+    "H",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "P",
+    "R",
+    "S",
+    "T",
+    "V",
+    "W",
+    "Z",
+    "CH",
+    "SH",
+    "TH",
+    "ZH",
+    "NG",
+    "Y",
+    "S-Blends",
+    "L-Blends",
+    "R-Blends"
 ]
 
 export const steps = ['Create your book', 'Payment details', 'Review your order'];

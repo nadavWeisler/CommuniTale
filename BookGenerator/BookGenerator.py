@@ -23,6 +23,12 @@ class BookGenerator:
         return self.generateBook()
 
     def getBookAssets(self, numPages, request):
+        # request = {
+        #     "age": "10",
+        #     "gender": "male",
+        #     "setting": "Superheroes",
+        #     "issue": "pronouncing the sound of the letter 's'",
+        # }
         textPrompts = PromptGenerator().getTextPromptFromRequest(request)
         self.stories = TextGenerator().getStoriesFromPrompt(messages=textPrompts, n=numPages)
         self.imagePrompts = [PromptGenerator().getImagePromptFromStory(story['story']) for story in self.stories]
