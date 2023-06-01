@@ -11,6 +11,7 @@ import Dialog from '@mui/material/Dialog';
 import { steps } from '../../constants';
 import { DialogContent, DialogTitle } from '@mui/material';
 import BookForm from './BookForm';
+import { useJsonPost } from './apiUtils';
 
 function getStepContent(step: number) {
   switch (step) {
@@ -33,7 +34,7 @@ interface BookFormProps {
 export default function CreateBookDialog(props: BookFormProps) {
   const { showFormDialog } = props;
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const [postJson, loading] = useJsonPost();
   function closeForm() {
     setActiveStep(0);
     props.closeFormDialog();
@@ -46,6 +47,11 @@ export default function CreateBookDialog(props: BookFormProps) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  React.useEffect(() => {
+    if (activeStep === 1) {
+      postJson(JSON.stringify({ book: "book"}));
+    }}, [activeStep]); //eslint-disable-line
 
   return (
     <Dialog open={showFormDialog} onClose={closeForm}>
