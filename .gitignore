@@ -8,4 +8,4 @@ node_modules
 output.pdf
 package-lock.json
 __pycache__
-book-generator-ui/package-lock.json
+.idea
