@@ -1,56 +1,30 @@
-import React, { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import Button from '@mui/material/Button';
+import { useState } from 'react';
+import { Document, Page } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+interface PDFViewerProps {
+    file: string;
+}
 
+export function PDFViewer(props: PDFViewerProps) {
+    const [numPages, setNumPages] = useState<number | null>(null);
+    const [pageNumber, setPageNumber] = useState(1);
 
-const PDFViewer: React.FC = () => {
-    const [numPages, setNumPages] = useState<number>(0);
-    const [pageNumber, setPageNumber] = useState<number>(1);
-
-    const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    const onDocumentLoadSuccess = ({ numPages }: { numPages: number | null }) => {
         setNumPages(numPages);
-    };
-
-    const nextPage = () => {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    };
-
-    const prevPage = () => {
-        setPageNumber((prevPageNumber) => prevPageNumber - 1);
-    };
+        setPageNumber(1);
+    }
 
     return (
-
         <>
             <Document
-                file="../../assets/pdf_example.pdf"
+                file="https://html.spec.whatwg.org/print.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
             >
-                <Page pageNumber={pageNumber} pageIndex={0} />
+                <Page pageNumber={pageNumber} />
             </Document>
             <p>
                 Page {pageNumber} of {numPages}
             </p>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={prevPage}
-                disabled={pageNumber <= 1}
-            >
-                Previous Page
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={nextPage}
-                disabled={pageNumber >= numPages || !numPages}
-            >
-                Next Page
-            </Button>
         </>
     );
-};
-
-export default PDFViewer;
+}
