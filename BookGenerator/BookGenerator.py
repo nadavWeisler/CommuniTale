@@ -26,7 +26,7 @@ class BookGenerator:
         default_request = {
             "age": "4",
             "gender": "girl",
-            "setting": "Animals",
+            "theme": "Animals",
             "issue": "pronouncing the sound of the letter 'r'",
         }
         try:
