@@ -5,17 +5,17 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import AddressForm from './BookForm';
 import Review from './Review';
 import PrintForm from './PrintForm';
 import Dialog from '@mui/material/Dialog';
 import { steps } from '../../constants';
 import { DialogContent, DialogTitle } from '@mui/material';
+import BookForm from './BookForm';
 
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <BookForm />;
     case 1:
       return <Review />;
     case 2:
