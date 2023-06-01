@@ -2,10 +2,10 @@ class PromptGenerator:
     def __init__(self):
         pass
 
-    def createBook(self, request: dict):
+    def getTextPromptFromRequest(self, request) -> str:
         """
-        main entry point of the book generation process.
-        Should generate a prompt for the text of the book, and call GetBook from book generator with the prompt
+        Gets a request with parameters for a book, returns a prompt for gpt that will create a story based on
+        the parameters.
         :param request:
         :return:
         """
