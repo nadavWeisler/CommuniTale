@@ -102,7 +102,7 @@ class PromptGenerator:
         """
         params = {
             'child': "The story should be suitable for reading to a " + request['age'] + "year old " + request['gender'] + ".",
-            'setting': "The story should revolve around " + request['setting'],
+            'setting': "The story should revolve around " + request['theme'],
             'issue': self.getIssue(request)
         }
 
