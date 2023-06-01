@@ -1,21 +1,37 @@
 import os
+from typing import List
+import requests
 
 from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
 
+
 class Book:
-    def __init__(self, textPages, images, title):
-        self.textPages = textPages
-        self.images = images
+    def __init__(
+        self, text_pages: List[str], images_url_lst: List[str], title: List[str]
+    ):
+        self.text_pages = text_pages
+        self.images_lst = [self.convert_url_to_png(url) for url in images_url_lst]
         self.title = title
+        self.image_counter = 0
+
+    def convert_url_to_png(self, url: str) -> str:
+        """
+        Convert url of an image to png file
+        """
+        image_url = requests.get(url, timeout=5)
+        with open(f"{self.image_counter}image.png", "wb") as f:
+            f.write(image_url.content)
+        self.image_counter += 1
 
     def generate(self):
+        """
+        Generate pdf file with text and images
+        """
         doc = SimpleDocTemplate("output.pdf", pagesize=letter)
-        for ind, text in enumerate(self.textPages):
-            content = []
-
+        content = []
+        for ind, text in enumerate(self.text_pages):
             title_style = getSampleStyleSheet()["Title"]
             paragraph_style = getSampleStyleSheet()["BodyText"]
 
@@ -28,10 +44,12 @@ class Book:
 
             content.append(PageBreak())
 
-            image = Image(self.images[ind])
+            image = Image(self.images_lst[ind])
             image.drawHeight = 500
             image.drawWidth = 500
             content.append(image)
+
+            content.append(PageBreak())
 
         doc.build(content)
 
