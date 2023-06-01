@@ -1,7 +1,6 @@
 import os
 from typing import List, Dict
 import requests
-
 import random
 
 from reportlab.lib.pagesizes import letter
