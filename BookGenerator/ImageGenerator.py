@@ -9,7 +9,7 @@ class ImageGenerator:
 
     def __init__(self):
         self.image_url = ""
-        openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = os.getenv("GPT_API_KEY")
         self.API_K = openai.api_key
 
     def getImageFromPrompt(self, prompt: str):
@@ -34,10 +34,9 @@ class ImageGenerator:
         ##########################################################
 
         # the rest are default, for now set to this - eventually I will get it in prompt:
-        img_size = "256x256"
+        img_size = "1024x1024"
 
-        self.API_K
-        dall_e_response = openai.Image.create(api_key=self.API_K, prompt=prompt, size=img_size)
+        dall_e_response = openai.Image.create(api_key=os.getenv("GPT_API_KEY"), prompt=prompt, size=img_size)
         self.image_url = dall_e_response['data'][0]['url']
         return self.image_url
 

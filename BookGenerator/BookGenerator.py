@@ -23,13 +23,19 @@ class BookGenerator:
         return self.generateBook()
 
     def getBookAssets(self, numPages, request):
-        # request = {
-        #     "age": "10",
-        #     "gender": "male",
-        #     "setting": "Superheroes",
-        #     "issue": "pronouncing the sound of the letter 's'",
-        # }
-        textPrompts = PromptGenerator().getTextPromptFromRequest(request)
+        default_request = {
+            "age": "4",
+            "gender": "girl",
+            "theme": "Animals",
+            "issue": "pronouncing the sound of the letter 'r'",
+        }
+        try:
+            textPrompts = PromptGenerator().getTextPromptFromRequest(request)
+        except KeyError:
+            print("Request did not include all required keys")
+            print("falling back to default request")
+            textPrompts = PromptGenerator().getTextPromptFromRequest(default_request)
+
         self.stories = TextGenerator().getStoriesFromPrompt(messages=textPrompts, n=numPages)
         self.imagePrompts = [PromptGenerator().getImagePromptFromStory(story['story']) for story in self.stories]
         self.images = [ImageGenerator().getImageFromPrompt(imagePrompt) for imagePrompt in self.imagePrompts]

@@ -4,6 +4,9 @@ import json
 
 from BookGenerator.BookGenerator import BookGenerator
 from BookGenerator.Book import Book
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all route
@@ -19,11 +22,11 @@ def book():
     print(request.json)
     result: Book = BookGenerator().getBook(request.json)
 
-    # return jsonify(result), 200
+    return jsonify(result), 200
 
-    return jsonify("Hello, World!"), 200
+    # return jsonify("Hello, World!"), 200
 
 
 if __name__ == '__main__':
-    print(BookGenerator().getBook(dict()))
-    #app.run(port=5000)  # Runs the server in development mode on port 5000.
+    # print(BookGenerator().getBook(dict()))
+    app.run(port=5000)  # Runs the server in development mode on port 5000.
