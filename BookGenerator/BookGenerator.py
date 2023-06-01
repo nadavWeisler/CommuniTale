@@ -8,7 +8,6 @@ class BookGenerator:
     def __init__(self):
         self.storyPrompt = ""
         self.stories = []
-        self.titles = []
         self.imagePrompts = []
         self.images = []
 
