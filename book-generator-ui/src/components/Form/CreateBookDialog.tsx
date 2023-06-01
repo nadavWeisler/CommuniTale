@@ -9,7 +9,7 @@ import Review from './Review';
 import PrintForm from './PrintForm';
 import Dialog from '@mui/material/Dialog';
 import { steps } from '../../constants';
-import { DialogContent, DialogTitle } from '@mui/material';
+import { CircularProgress, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import BookForm from './BookForm';
 import { useJsonPost } from './apiUtils';
 
@@ -23,11 +23,12 @@ export default function CreateBookDialog(props: BookFormProps) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [postJson, loading] = useJsonPost();
   const [formJson, setFormJson] = React.useState({});
+  const [enableGenerateBook, setEnableGenerateBook] = React.useState(false);
 
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <BookForm setBookDetails={setFormJson} />;
+        return <BookForm setBookDetails={setFormJson} setEnableGenerateBook={setEnableGenerateBook}/>;
       case 1:
         return <Review />;
       case 2:
@@ -50,6 +51,39 @@ export default function CreateBookDialog(props: BookFormProps) {
     setActiveStep(activeStep - 1);
   };
 
+  function getNextButtonText() {
+    if (activeStep === 0) {
+      return 'Generate Book';
+    } else if (activeStep === 2) {
+      return 'Place Order';
+    } else {
+      return 'Next';
+    }
+  }
+
+  function getThankYouMessage() {
+    return (
+      <React.Fragment>
+        <Typography variant="h5" gutterBottom>
+          Thank you for your order.
+        </Typography>
+        <Typography variant="subtitle1">
+          Your order number is #2001539. We have emailed your order
+          confirmation, and will send you an update when your order has
+          shipped.
+        </Typography>
+      </React.Fragment>
+    );
+  }
+
+  function ifEnableGenerateBook() {
+    if (activeStep === 0) {
+      return enableGenerateBook
+    } else {
+      return true;
+    }
+  }
+
   React.useEffect(() => {
     if (activeStep === 1) {
       postJson(JSON.stringify(formJson));
@@ -60,51 +94,35 @@ export default function CreateBookDialog(props: BookFormProps) {
     <Dialog open={showFormDialog} onClose={closeForm}>
       <DialogTitle>Create Your Own Book</DialogTitle>
       <DialogContent>
+        <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
         {
-          loading &&
-          <div>Loading...</div>
+          loading ?
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <CircularProgress />
+            </Box> :
+            activeStep !== steps.length ?
+              getStepContent(activeStep) :
+              getThankYouMessage()
         }
-        {
-          !loading &&
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        }
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography variant="h5" gutterBottom>
-              Thank you for your order.
-            </Typography>
-            <Typography variant="subtitle1">
-              Your order number is #2001539. We have emailed your order
-              confirmation, and will send you an update when your order has
-              shipped.
-            </Typography>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {getStepContent(activeStep)}
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              {activeStep !== 0 && (
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  Back
-                </Button>
-              )}
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                sx={{ mt: 3, ml: 1 }}
-              >
-                {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
       </DialogContent>
+      <DialogActions>
+        <Button onClick={handleBack} disabled={activeStep == 0}>
+          Back
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleNext}
+          disabled={!ifEnableGenerateBook()}
+        >
+          {getNextButtonText()}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
