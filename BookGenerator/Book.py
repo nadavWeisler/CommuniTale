@@ -3,5 +3,5 @@ class Book:
         self.textPages = textPages
         self.images = images
 
-    def generatePDF(self):
+    def generate(self):
         pass

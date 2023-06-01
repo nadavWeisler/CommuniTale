@@ -3,6 +3,7 @@ from PromptGenerator import PromptGenerator
 from ImageGenerator import ImageGenerator
 from Book import Book
 
+
 class BookGenerator:
     def __init__(self):
         self.stories = []
@@ -18,7 +19,7 @@ class BookGenerator:
         :return:
         """
         self.getBookAssets(numPages, textPrompt)
-        
+
         return self.generateBook()
 
     def getBookAssets(self, numPages, textPrompt):
@@ -27,7 +28,7 @@ class BookGenerator:
         self.images = [ImageGenerator().getImageFromPrompt(imagePrompt) for imagePrompt in self.imagePrompts]
 
     def generateBook(self):
-        book = Book(self.stories, self.images)
+        book = Book(self.stories, self.images).generate()
         return book
 
 
