@@ -33,12 +33,12 @@ class TextGenerator:
             story_msg = choices_dict["message"]["content"]
             story_lst.append(story_msg)
         
-        story_list_of_dits = []
+        story_list_of_dicts = []
         for story in story_lst:
             splited_lst = story.split('"')
             story_dict = {"title": splited_lst[1], "story": " ".join(splited_lst[2:])[2:]}
-            story_list_of_dits.append(story_dict)
-        return story_list_of_dits
+            story_list_of_dicts.append(story_dict)
+        return story_list_of_dicts
     
 
 
