@@ -1,11 +1,11 @@
 import os
 from typing import List, Dict
 import requests
-import random
 
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak, PageTemplate, Spacer
+from reportlab.lib.units import inch
 
 
 class Book:
@@ -33,11 +33,13 @@ class Book:
         for ind, text in enumerate(self.text_pages):
             title_style = getSampleStyleSheet()["Title"]
             paragraph_style = getSampleStyleSheet()["BodyText"]
+            paragraph_style.fontSize = 25
+            paragraph_style.leading = 22 
 
             page_title = Paragraph(text["title"], title_style)
             content.append(page_title)
 
-            paragraph_text = text["story"]
+            paragraph_text = text["story"].replace(".", ".<br/><br/>")
             paragraph = Paragraph(paragraph_text, paragraph_style)
             content.append(paragraph)
 
@@ -55,9 +57,18 @@ class Book:
 
 if __name__ == "__main__":
     texts = [
-        {"title": "Dog", "story": "Story about a dog"},
-        {"title": "Cat", "story": "Stoty about a cat"},
-        {"title": "Horse", "story": "Stoty about a horse"},
+        {
+            "title": "Dog",
+            "story": "Story about a dog Story about a dog Story about a dog. Story about a dog Story about a dog Story about a dog. Story about a dog Story about a dog Story about a dog. Story about a dog v Story about a dog. Story about a dog Story about a dog. Story about a dog Story about a dog",
+        },
+        {
+            "title": "Cat",
+            "story": "Stoty about a cat Stoty about a cat Stoty about a cat Stoty about a cat Stoty about a cat",
+        },
+        {
+            "title": "Horse",
+            "story": "Stoty about a horse Stoty about a horse Stoty about a horse Stoty about a horse ",
+        },
     ]
     images = [
         "https://www.freepnglogos.com/uploads/dog-png/bow-wow-gourmet-dog-treats-are-healthy-natural-low-4.png",
