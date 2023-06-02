@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 import json
 
@@ -25,6 +25,22 @@ def book():
     return jsonify(result.to_dict()), 200
 
     # return jsonify("Hello, World!"), 200
+
+
+@app.route('/send_pdf', methods=['POST', 'OPTIONS'])
+def send_pdf():
+    if request.method == 'OPTIONS':
+        # Preflight request. Reply successfully:
+        return jsonify({'success': True}), 200
+
+    pdf_file = "../output.pdf"
+
+    with open(pdf_file, 'rb') as f:
+        data = f.read()
+    response = make_response(data)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    return response
 
 
 if __name__ == '__main__':
