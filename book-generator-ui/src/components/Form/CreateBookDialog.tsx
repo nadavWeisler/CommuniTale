@@ -30,7 +30,7 @@ export default function CreateBookDialog(props: BookFormProps) {
       case 0:
         return <BookForm setBookDetails={setFormJson} setEnableGenerateBook={setEnableGenerateBook}/>;
       case 1:
-        return <div>{bookData.text_pages[0].story}</div>;
+        return <Review bookData={bookData}/>;
       case 2:
         return <PrintForm />;
       default:
