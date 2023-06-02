@@ -21,17 +21,12 @@ class TextGenerator:
         response = openai.ChatCompletion.create(
             model="gpt-4-0314",  # model types: gpt-3.5-turbo, gpt-4-0314, gpt-4, gpt-3.5-turbo-0301
             messages=[{"role": "system", "content": "you are a childerns book writer"}]
-            + messages,
+            + messages + [{"role": "user", "content": f"Please create {n} different stories, separate them with '##'"}],
             temperature=0.5,
             max_tokens=1000,
-            n=n,
         )
 
-        story_lst = []
-        for i in range(n):
-            choices_dict = response["choices"][i]
-            story_msg = choices_dict["message"]["content"]
-            story_lst.append(story_msg)
+        story_lst = response["choices"][0]["message"]["content"].split("##")
         
         story_list_of_dicts = []
         for story in story_lst:
