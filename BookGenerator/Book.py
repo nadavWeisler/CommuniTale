@@ -3,9 +3,8 @@ from typing import List, Dict
 import requests
 
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak, PageTemplate, Spacer
-from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
 
 
 class Book:
@@ -31,15 +30,22 @@ class Book:
         doc = SimpleDocTemplate("output.pdf", pagesize=letter)
         content = []
         for ind, text in enumerate(self.text_pages):
+            font_name = "Helvetica"
             title_style = getSampleStyleSheet()["Title"]
+            title_style.fontSize = 35
+            title_style.fontName = font_name
+            #
             paragraph_style = getSampleStyleSheet()["BodyText"]
             paragraph_style.fontSize = 25
-            paragraph_style.leading = 22 
+            paragraph_style.leading = 22
+            paragraph_style.fontName = font_name
 
-            page_title = Paragraph(text["title"], title_style)
+            page_title = Paragraph(
+                text["title"] + "<br/><br/><br/><br/><br/>", title_style
+            )
             content.append(page_title)
 
-            paragraph_text = text["story"].replace(".", ".<br/><br/>")
+            paragraph_text = text["story"].replace(".", ".<br/><br/><br/>")
             paragraph = Paragraph(paragraph_text, paragraph_style)
             content.append(paragraph)
 
