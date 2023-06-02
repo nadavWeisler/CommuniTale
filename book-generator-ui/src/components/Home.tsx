@@ -28,7 +28,7 @@ function Home({ openCreateBookForm }: HomeProps) {
                     Welcome to CommuniTale
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                    Here you can create all sort of custom made stories for helping your childerns
+                    Here you can create all sort of custom made stories for Speech therapy usage
                 </Typography>
                 <Stack
                     sx={{ pt: 4 }}
