@@ -35,7 +35,7 @@ class TextGenerator:
         for story in story_lst:
             splited_lst = story.split('"')
             story_dict = {"title": splited_lst[1], "story": " ".join(splited_lst[2:])[2:]}
-            if len(story_dict["title"]) > 22:
+            if len(story_dict["title"]) > 50:
                 print("Length of title for one of the stories was too long, generating again")
                 return self.getStoriesFromPrompt(messages=messages, n=n)
             story_list_of_dicts.append(story_dict)
