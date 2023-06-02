@@ -28,3 +28,20 @@ export const useJsonPost = (url:string = "http://localhost:5000/book"):[(data: s
 
   return [postJson, loading, responseData];
 };
+
+export async function getPdf() {
+  const response = await fetch('http://localhost:5000/send_pdf');
+
+  if (response.ok) {
+    const data = await response.blob();
+    const url = URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'sample.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    console.error(`Error fetching PDF: ${response.statusText}`);
+  }
+}

@@ -25,7 +25,7 @@ function Home({ openCreateBookForm }: HomeProps) {
                     color="text.primary"
                     gutterBottom
                 >
-                    Welcome to Communitale
+                    Welcome to CommuniTale
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" paragraph>
                     Here you can create all sort of custom made stories for helping your childerns

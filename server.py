@@ -27,13 +27,13 @@ def book():
     # return jsonify("Hello, World!"), 200
 
 
-@app.route('/send_pdf', methods=['POST', 'OPTIONS'])
+@app.route('/send_pdf', methods=['GET', 'OPTIONS'])
 def send_pdf():
     if request.method == 'OPTIONS':
         # Preflight request. Reply successfully:
         return jsonify({'success': True}), 200
 
-    pdf_file = "../output.pdf"
+    pdf_file = "output.pdf"
 
     with open(pdf_file, 'rb') as f:
         data = f.read()

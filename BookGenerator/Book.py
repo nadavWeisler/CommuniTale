@@ -42,7 +42,7 @@ class Book:
             paragraph_style.fontName = font_name
 
             page_title = Paragraph(
-                text["title"] + "<br/><br/><br/><br/><br/>", title_style
+                text["title"] + "<br/><br/><br/>", title_style
             )
             content.append(page_title)
 

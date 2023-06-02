@@ -11,7 +11,7 @@ import Dialog from '@mui/material/Dialog';
 import { steps } from '../../constants';
 import { CircularProgress, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import BookForm from './BookForm';
-import { useJsonPost } from './apiUtils';
+import { useJsonPost, getPdf } from './apiUtils';
 
 interface BookFormProps {
   showFormDialog: boolean;
@@ -24,7 +24,6 @@ export default function CreateBookDialog(props: BookFormProps) {
   const [postJson, loading, bookData] = useJsonPost();
   const [formJson, setFormJson] = React.useState({});
   const [enableGenerateBook, setEnableGenerateBook] = React.useState(false);
-
   function getStepContent(step: number) {
     switch (step) {
       case 0:
@@ -65,6 +64,7 @@ export default function CreateBookDialog(props: BookFormProps) {
   }
 
   function getThankYouMessage() {
+    getPdf();
     return (
       <React.Fragment>
         <Typography variant="h5" gutterBottom>

@@ -19,11 +19,13 @@ export const GENDER = [
 ]
 
 export const THEMES = [
-    "Cars",
-    "Food",
+    "Animals",
+    "Superheores",
+    "Cartoons",
     "Sports",
-    "Music",
-    "Animals"
+    "Fantasy",
+    "Sci-Fi",
+    "Avocado",
 ]
 
 export const CONDITIONS = [
