@@ -20,7 +20,7 @@ class TextGenerator:
         """
         response = openai.ChatCompletion.create(
             model="gpt-4-0314",  # model types: gpt-3.5-turbo, gpt-4-0314, gpt-4, gpt-3.5-turbo-0301
-            messages=[{"role": "system", "content": "you are a childerns book writer"}]
+            messages=[{"role": "system", "content": "you are a childerns book writer you write stories up to 70 words"}]
             + messages + [{"role": "user", "content": "Please keep title length under 22 characters long"}],
             temperature=1.3,
             max_tokens=1000,
