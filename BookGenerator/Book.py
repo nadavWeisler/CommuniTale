@@ -3,14 +3,14 @@ from typing import List, Dict
 import requests
 
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak, PageTemplate, Spacer
-from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
 
 
 class Book:
     def __init__(self, text_pages: List[Dict[str, str]], images_url_lst: List[str]):
         self.text_pages = text_pages
+        self.image_urls = images_url_lst
         self.images_lst = [
             self.convert_url_to_png(url, ind) for ind, url in enumerate(images_url_lst)
         ]
@@ -31,15 +31,22 @@ class Book:
         doc = SimpleDocTemplate("output.pdf", pagesize=letter)
         content = []
         for ind, text in enumerate(self.text_pages):
+            font_name = "Helvetica"
             title_style = getSampleStyleSheet()["Title"]
+            title_style.fontSize = 35
+            title_style.fontName = font_name
+            #
             paragraph_style = getSampleStyleSheet()["BodyText"]
             paragraph_style.fontSize = 25
-            paragraph_style.leading = 22 
+            paragraph_style.leading = 22
+            paragraph_style.fontName = font_name
 
-            page_title = Paragraph(text["title"], title_style)
+            page_title = Paragraph(
+                text["title"] + "<br/><br/><br/><br/><br/>", title_style
+            )
             content.append(page_title)
 
-            paragraph_text = text["story"].replace(".", ".<br/><br/>")
+            paragraph_text = text["story"].replace(".", ".<br/><br/><br/>")
             paragraph = Paragraph(paragraph_text, paragraph_style)
             content.append(paragraph)
 
@@ -53,6 +60,12 @@ class Book:
             content.append(PageBreak())
 
         doc.build(content)
+
+    def to_dict(self):
+        return {
+            "text_pages": self.text_pages,
+            "image_urls": self.image_urls
+        }
 
 
 if __name__ == "__main__":

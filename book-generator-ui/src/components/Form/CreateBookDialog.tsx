@@ -21,7 +21,7 @@ interface BookFormProps {
 export default function CreateBookDialog(props: BookFormProps) {
   const { showFormDialog } = props;
   const [activeStep, setActiveStep] = React.useState(0);
-  const [postJson, loading] = useJsonPost();
+  const [postJson, loading, bookData] = useJsonPost();
   const [formJson, setFormJson] = React.useState({});
   const [enableGenerateBook, setEnableGenerateBook] = React.useState(false);
 
@@ -30,7 +30,7 @@ export default function CreateBookDialog(props: BookFormProps) {
       case 0:
         return <BookForm setBookDetails={setFormJson} setEnableGenerateBook={setEnableGenerateBook}/>;
       case 1:
-        return <Review />;
+        return <Review bookData={bookData}/>;
       case 2:
         return <PrintForm />;
       default:

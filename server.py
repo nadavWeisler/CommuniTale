@@ -21,8 +21,8 @@ def book():
         return jsonify({'error': 'No id provided'}), 400
     print(request.json)
     result: Book = BookGenerator().getBook(request.json)
-
-    return jsonify(result), 200
+    print(result.to_dict().get('text_pages'))
+    return jsonify(result.to_dict()), 200
 
     # return jsonify("Hello, World!"), 200
 
