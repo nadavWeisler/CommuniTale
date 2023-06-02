@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -10,9 +10,25 @@ interface IdCardProps {
     picUrl: string;
     title: string;
     description: string;
+
 }
 
 function IdCard(props: IdCardProps) {
+    const [isHovered, setIsHovered] = useState(false);
+    
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+    
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+    
+    const containerStyles: React.CSSProperties = {
+        transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+        transition: 'transform 0.3s ease',
+        /* Add other desired styles for the container */
+    };   
     return (
         <Card
             sx={{
@@ -20,6 +36,9 @@ function IdCard(props: IdCardProps) {
                 display: "flex",
                 flexDirection: "column",
             }}
+            style={containerStyles}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
             <CardMedia
                 component="div"

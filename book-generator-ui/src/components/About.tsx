@@ -32,7 +32,7 @@ export function About() {
                                 color="text.primary"
                                 gutterBottom
                             >
-                                About us
+                                <strong><i>About us</i></strong>
                             </Typography>
                             <Typography variant="h5" align="center" color="text.secondary" paragraph>
                             In a realm of boundless imagination, a group of passionate programmers united for a thrilling 24-hour challenge. <b>Their mission:</b> to harness the power of generative AI and create captivating books for children. With relentless determination, they coded non-stop, delving into the depths of algorithms and creativity. As the sun rose, their efforts bore fruit—an extraordinary collection of AI-crafted books, brimming with wonder and wisdom. These literary treasures would ignite the imaginations of young readers worldwide, leaving a legacy of innovation and inspiring a love for storytelling that transcended time. Their journey showcased the incredible possibilities when passion, collaboration, and coding converged in a realm where dreams come to life.
@@ -61,17 +61,17 @@ export function About() {
                 </Grid>
                 <Grid item xs={6} sm={4} md={4}>
                     <IdCard title="Yotam Feitelson"
-                                description=""
+                                description="Digital DJ, spinning code tracks that make the servers groove and the algorithms dance"
                                     picUrl="https://media.licdn.com/dms/image/D4D03AQGYUa24DQCFVw/profile-displayphoto-shrink_800_800/0/1672142775337?e=1691020800&v=beta&t=guba7wqstT6TGUXh7PbUAXN758KxC0WamFbaPYXs5DM"/>
                 </Grid>
                 <Grid item xs={6} sm={4} md={4}>
                     <IdCard title="Nadav Porat"
-                                description=""
+                                description="casting spells of code to conjure up solutions that leave jaws dropped"
                                     picUrl="https://media.licdn.com/dms/image/C4D03AQEuJZ1UkM-Emw/profile-displayphoto-shrink_800_800/0/1572158793894?e=1691020800&v=beta&t=VxoiicdGYOeMRaJDleF7HwZupTTw0ZPdCmdBGtkC17Q"/>
                 </Grid>
                 <Grid item xs={6} sm={4} md={4}>
                     <IdCard title="Nadav Weisler"
-                                description=""
+                                description="Debugging wizard, waving his wand and banishing bugs to the dark corners of the digital universe"
                                     picUrl="https://media.licdn.com/dms/image/C4D03AQE_P3IHLL6trQ/profile-displayphoto-shrink_800_800/0/1615991285399?e=1691020800&v=beta&t=kNKmENVhU6_4mnpADllUk0QBcD0gx69iYCjnJrgCjq4" />
                 </Grid>
                 <Grid item xs={6} sm={4} md={4}>
