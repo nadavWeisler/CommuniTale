@@ -14,35 +14,27 @@ const tiers = [
         title: 'Free',
         price: '0',
         description: [
-            '10 users included',
-            '2 GB of storage',
-            'Help center access',
-            'Email support',
+            'up to 5 books per month',
         ],
         buttonText: 'Sign up for free',
         buttonVariant: 'outlined',
     },
     {
-        title: 'Pro',
+        title: 'Private Usage',
         subheader: 'Most popular',
-        price: '15',
+        price: '30',
         description: [
-            '20 users included',
-            '10 GB of storage',
-            'Help center access',
-            'Priority email support',
+            'up to 100 books per month',
         ],
-        buttonText: 'Get started',
+        buttonText: 'Buy now',
         buttonVariant: 'contained',
     },
     {
         title: 'Enterprise',
-        price: '30',
+        price: 'custom',
         description: [
-            '50 users included',
-            '30 GB of storage',
-            'Help center access',
-            'Phone & email support',
+            'Relevant for organizations',
+            'Customized according to the the organization needs'
         ],
         buttonText: 'Contact us',
         buttonVariant: 'outlined',
@@ -60,12 +52,7 @@ export default function Pricing() {
                     color="text.primary"
                     gutterBottom
                 >
-                    Pricing
-                </Typography>
-                <Typography variant="h5" align="center" color="text.secondary" component="p">
-                    Quickly build an effective pricing table for your potential customers with
-                    this layout. It&apos;s built with default MUI components with little
-                    customization.
+                    <i><strong>Pricing</strong></i>
                 </Typography>
             </Container>
 
@@ -77,15 +64,15 @@ export default function Pricing() {
                             item
                             key={tier.title}
                             xs={12}
-                            sm={tier.title === 'Enterprise' ? 12 : 6}
-                            md={4}
+                            sm={tier.title === 'Private Usage' ? 12 : 6}
+                            md={4} //
                         >
                             <Card>
                                 <CardHeader
                                     title={tier.title}
                                     subheader={tier.subheader}
                                     titleTypographyProps={{ align: 'center' }}
-                                    action={tier.title === 'Pro' ? null : null}
+                                    action={tier.title === 'private Usage' ? null : null}
                                     subheaderTypographyProps={{
                                         align: 'center',
                                     }}
@@ -102,14 +89,14 @@ export default function Pricing() {
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'baseline',
-                                            mb: 2,
+                                            mb: 2
                                         }}
                                     >
                                         <Typography component="h2" variant="h3" color="text.primary">
-                                            ${tier.price}
+                                        {tier.title !== 'Enterprise' ? '$'+tier.price : tier.price}
                                         </Typography>
                                         <Typography variant="h6" color="text.secondary">
-                                            /mo
+                                        {tier.title !== 'Enterprise' ? '/mo' : ''}
                                         </Typography>
                                     </Box>
                                     <ul>
