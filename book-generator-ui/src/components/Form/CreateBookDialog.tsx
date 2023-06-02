@@ -28,9 +28,9 @@ export default function CreateBookDialog(props: BookFormProps) {
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <BookForm setBookDetails={setFormJson} setEnableGenerateBook={setEnableGenerateBook}/>;
+        return <BookForm setBookDetails={setFormJson} setEnableGenerateBook={setEnableGenerateBook} />;
       case 1:
-        return <Review bookData={bookData}/>;
+        return <Review bookData={bookData} />;
       case 2:
         return <PrintForm />;
       default:
@@ -45,6 +45,9 @@ export default function CreateBookDialog(props: BookFormProps) {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    if (activeStep === 3) {
+      setEnableGenerateBook(false);
+    }
   };
 
   const handleBack = () => {
@@ -91,7 +94,7 @@ export default function CreateBookDialog(props: BookFormProps) {
   }, [activeStep]); //eslint-disable-line
 
   return (
-    <Dialog open={showFormDialog} onClose={closeForm}>
+    <Dialog open={showFormDialog} onClose={closeForm} fullWidth>
       <DialogTitle>Create Your Own Book</DialogTitle>
       <DialogContent>
         <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
@@ -111,18 +114,20 @@ export default function CreateBookDialog(props: BookFormProps) {
               getThankYouMessage()
         }
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleBack} disabled={activeStep == 0}>
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleNext}
-          disabled={!ifEnableGenerateBook()}
-        >
-          {getNextButtonText()}
-        </Button>
-      </DialogActions>
+      {activeStep <= 2 &&
+        <DialogActions>
+          <Button onClick={handleBack} disabled={activeStep === 0}>
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleNext}
+            disabled={!ifEnableGenerateBook()}
+          >
+            {getNextButtonText()}
+          </Button>
+        </DialogActions>
+      }
     </Dialog>
   );
 }

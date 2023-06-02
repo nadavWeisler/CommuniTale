@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, Button, Toolbar, Typography } from '@mui/material';
 
 interface NavBarProps {
     openCreateBookForm: () => void;
@@ -17,7 +17,7 @@ export function NavBar({
                     sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     onClick={() => window.location.href = '/'}
                 >
-                    MUI
+                    <Avatar src="/favicon.ico" />
                 </Typography>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                     <Button

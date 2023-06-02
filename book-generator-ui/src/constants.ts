@@ -61,7 +61,7 @@ export const PHONEMS = [
     "R-Blends"
 ]
 
-export const steps = ['Create your book', 'Payment details', 'Review your order'];
+export const steps = ['Generate', 'Preview', 'Purchase'];
 
 export const SPEECH_CONDITIONS = [
     "Articulation Disorders",

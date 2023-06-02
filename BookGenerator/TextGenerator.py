@@ -21,22 +21,23 @@ class TextGenerator:
         response = openai.ChatCompletion.create(
             model="gpt-4-0314",  # model types: gpt-3.5-turbo, gpt-4-0314, gpt-4, gpt-3.5-turbo-0301
             messages=[{"role": "system", "content": "you are a childerns book writer"}]
-            + messages,
-            temperature=0.5,
+            + messages + [{"role": "user", "content": "Please keep title length under 22 characters long"}],
+            temperature=1.3,
             max_tokens=1000,
-            n=n,
+            n=n
         )
 
         story_lst = []
         for i in range(n):
-            choices_dict = response["choices"][i]
-            story_msg = choices_dict["message"]["content"]
-            story_lst.append(story_msg)
-        
+            story_lst.append(response["choices"][i]["message"]["content"])
+
         story_list_of_dicts = []
         for story in story_lst:
             splited_lst = story.split('"')
             story_dict = {"title": splited_lst[1], "story": " ".join(splited_lst[2:])[2:]}
+            if len(story_dict["title"]) > 22:
+                print("Length of title for one of the stories was too long, generating again")
+                return self.getStoriesFromPrompt(messages=messages, n=n)
             story_list_of_dicts.append(story_dict)
         return story_list_of_dicts
     
