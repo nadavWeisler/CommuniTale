@@ -26,15 +26,15 @@ export default function PrintForm() {
       price: '$9.99',
     }];
     if (format === 'pdf') {
-      products.push({ 
+      products.push({
         name: 'PDF format',
-        desc: 'Another thing',
+        desc: 'Less is more',
         price: 'free',
       });
-    } else if(format === 'printed') {
+    } else if (format === 'printed') {
       products.push({
         name: 'Printed format',
-        desc: 'Using Lupa service, you will receive an email for update your shipping address',
+        desc: 'Using outsource printing service',
         price: '$9.99',
       });
     }
@@ -45,7 +45,7 @@ export default function PrintForm() {
     let price = 9.99;
     if (format === 'pdf') {
       price += 0;
-    } else if(format === 'printed') {
+    } else if (format === 'printed') {
       price += 9.99;
     }
     return price;
@@ -79,18 +79,11 @@ export default function PrintForm() {
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            {getPrice()}
+            ${getPrice()}
           </Typography>
         </ListItem>
       </List>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
-        </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Payment details
@@ -108,6 +101,13 @@ export default function PrintForm() {
             ))}
           </Grid>
         </Grid>
+        {format === 'printed' && <Grid item xs={12} sm={6}>
+          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+            Shipping
+          </Typography>
+          <Typography gutterBottom>John Smith</Typography>
+          <Typography gutterBottom>{addresses.join(', ')}</Typography>
+        </Grid>}
       </Grid>
     </React.Fragment>
   );
