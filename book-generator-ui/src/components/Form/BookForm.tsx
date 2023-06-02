@@ -5,9 +5,10 @@ import { AGE, CONDITIONS, CORE_VALUES, GENDER, PHONEMS, THEMES } from '../../con
 
 interface BookFormProps {
     setBookDetails: (bookDetails: any) => void;
+    setEnableGenerateBook: (enableGenerateBook: boolean) => void;
 }
 
-export default function BookForm({ setBookDetails }: BookFormProps) {
+export default function BookForm({ setBookDetails, setEnableGenerateBook }: BookFormProps) {
     const [age, setAge] = React.useState('');
     const [gender, setGender] = React.useState('');
     const [theme, setTheme] = React.useState('');
@@ -18,7 +19,7 @@ export default function BookForm({ setBookDetails }: BookFormProps) {
 
     React.useEffect(() => {
         let issue = ""
-        if (condition === 'phonemic') {
+        if (condition === 'Phonemic') {
             issue = "Prenaouncing the sound of " + phoneme + "'s"
         } else if (condition === 'Problem Solving') {
             issue = "Phonemic Awareness"
@@ -30,7 +31,15 @@ export default function BookForm({ setBookDetails }: BookFormProps) {
             "theme": theme,
             "issue": issue,
         });
-    }, [age, condition, coreValue, gender, phoneme, setBookDetails, theme]);
+        setEnableGenerateBook(
+            age !== '' &&
+            condition !== '' &&
+            coreValue !== '' &&
+            gender !== '' &&
+            theme !== '' &&
+            (condition !== 'Phonemic' || phoneme !== '')
+        );
+    }, [age, condition, coreValue, gender, phoneme, setBookDetails, setEnableGenerateBook, theme]);
 
     return (
         <React.Fragment>

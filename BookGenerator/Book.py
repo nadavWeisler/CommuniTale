@@ -10,6 +10,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Image, PageBreak
 class Book:
     def __init__(self, text_pages: List[Dict[str, str]], images_url_lst: List[str]):
         self.text_pages = text_pages
+        self.image_urls = images_url_lst
         self.images_lst = [
             self.convert_url_to_png(url, ind) for ind, url in enumerate(images_url_lst)
         ]
@@ -59,6 +60,12 @@ class Book:
             content.append(PageBreak())
 
         doc.build(content)
+
+    def to_dict(self):
+        return {
+            "text_pages": self.text_pages,
+            "image_urls": self.image_urls
+        }
 
 
 if __name__ == "__main__":

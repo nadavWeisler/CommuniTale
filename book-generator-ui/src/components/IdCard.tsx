@@ -7,7 +7,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 interface IdCardProps {
+    picUrl: string;
     title: string;
+    description: string;
 }
 
 function IdCard(props: IdCardProps) {
@@ -23,17 +25,16 @@ function IdCard(props: IdCardProps) {
                 component="div"
                 sx={{
                     // 16:9
-                    pt: "56.25%",
+                    pt: "100.00%" //"56.25%",
                 }}
-                image="https://source.unsplash.com/random?wallpapers"
+                image= {props.picUrl}
             />
             <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5" component="h2">
                     {props.title}
                 </Typography>
                 <Typography>
-                    This is a media card. You can use this section to describe
-                    the content.
+                    {props.description}
                 </Typography>
             </CardContent>
         </Card>

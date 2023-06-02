@@ -22,7 +22,7 @@ def book():
     print(request.json)
     result: Book = BookGenerator().getBook(request.json)
 
-    return jsonify(result), 200
+    return jsonify(result.to_dict()), 200
 
     # return jsonify("Hello, World!"), 200
 
