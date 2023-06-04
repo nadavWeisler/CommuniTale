@@ -124,7 +124,7 @@ class PromptGenerator:
                                                {"role": "assistant", "content": story},
                                                {"role": "user", "content": "create a prompt suitable for dalle-2 to generate a picture from the above story. Don't use names. use the digital art smooth descriptors and other suitable descriptors. Add objects or details about the background. Keep the prompt short"},]
         return openai.ChatCompletion.create(
-            model="gpt-4-0314",
+            model="gpt-3.5-turbo",
             messages=chat_prompt,
             temperature=0.5,
             max_tokens=1000,

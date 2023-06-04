@@ -20,7 +20,7 @@ export default function BookForm({ setBookDetails, setEnableGenerateBook }: Book
     React.useEffect(() => {
         let issue = ""
         if (condition === 'Phonemic') {
-            issue = "Prenaouncing the sound of " + phoneme + "'s"
+            issue = "pronouncing the sound of " + phoneme + "'s"
         } else if (condition === 'Problem Solving') {
             issue = "Phonemic Awareness"
         } 
