@@ -20,6 +20,7 @@ class ImageGenerator:
         :param prompt:
         :return:
         """
+        print(f"Got request for Image from prompt: {prompt}")
         ##########################################################
         # Request To DALL-E
 

@@ -20,11 +20,14 @@ class BookGenerator:
         :param numPages:
         :return:
         """
+        print(f"getBook request received, num pages: {numPages}")
         self.getBookAssets(numPages, request)
+        print("Book assets collected, generating book")
 
         return self.generateBook()
 
     def getBookAssets(self, numPages, request):
+        print("Gathering book assets")
         default_request = {
             "age": "4",
             "gender": "girl",

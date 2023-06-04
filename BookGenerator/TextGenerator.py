@@ -18,6 +18,7 @@ class TextGenerator:
         :param messages:
         :return:
         """
+        print(f"Got request for {n} stories from prompt: {messages}")
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # model types: gpt-3.5-turbo, gpt-4-0314, gpt-4, gpt-3.5-turbo-0301
             messages=[{"role": "system", "content": "you are a childerns book writer you write stories up to 70 words"}]
@@ -32,6 +33,7 @@ class TextGenerator:
             story_lst.append(response["choices"][i]["message"]["content"])
 
         story_list_of_dicts = []
+        print("separating stories from titles")
         for story in story_lst:
             splited_lst = story.split('"')
             story_dict = {"title": splited_lst[1], "story": " ".join(splited_lst[2:])[2:]}

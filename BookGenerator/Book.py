@@ -19,6 +19,8 @@ class Book:
         """
         Convert url of an image to png file
         """
+        print(f"Received URL for image number: {num_of_img}")
+        print("Converting to PNG")
         image_url = requests.get(url, timeout=5)
         with open(f"{num_of_img}image.png", "wb") as f:
             f.write(image_url.content)
@@ -28,6 +30,7 @@ class Book:
         """
         Generate pdf file with text and images
         """
+        print("Generating PDF of book")
         doc = SimpleDocTemplate("output.pdf", pagesize=letter)
         content = []
         for ind, text in enumerate(self.text_pages):
@@ -62,6 +65,7 @@ class Book:
         doc.build(content)
 
     def to_dict(self):
+        print("Converting book data to dict")
         return {
             "text_pages": self.text_pages,
             "image_urls": self.image_urls
