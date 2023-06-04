@@ -100,6 +100,7 @@ class PromptGenerator:
         :param request:
         :return:
         """
+        print("Generating text prompt")
         params = {
             'child': "The story should be suitable for reading to a " + request['age'] + "year old " + request['gender'] + ".",
             'setting': "The story should revolve around " + request['theme'],
@@ -120,6 +121,8 @@ class PromptGenerator:
         :param story:
         :return:
         """
+        print("Generating Image prompt from story")
+        print(f"story received: {story}")
         chat_prompt = self.default_messages + [{"role": "user", "content": "create another story"},
                                                {"role": "assistant", "content": story},
                                                {"role": "user", "content": "create a prompt suitable for dalle-2 to generate a picture from the above story. Don't use names. use the digital art smooth descriptors and other suitable descriptors. Add objects or details about the background. Keep the prompt short"},]
@@ -133,11 +136,16 @@ class PromptGenerator:
         # return """A joyful, smooth digital illustration of a playful lamb leaping in a lush, green meadow under a vivid, colorful rainbow stretching across the sky."""
 
     def getIssue(self, request):
-        if 'pronouncing' in request['issue']:
+        print("Generating child's issue message for GPT")
+        print(f"Issue requested: {request['issue']}")
+        if 'pronouncing' in request['issue'].lower():
+            print("Got pronunciation issue")
             return "The story should focus on " + request['issue']
         elif 'flexibility' in request['issue']:
+            print("Got flexibility issue")
             return "The story should focus on thought flexibility and problem solving"
         else:
+            print("Unknown issue, defaulting to general issue")
             return "The story should focus on improving language skills"
 
 
