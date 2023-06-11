@@ -21,48 +21,56 @@ class Book:
         """
         print(f"Received URL for image number: {num_of_img}")
         print("Converting to PNG")
+        imageLocation = f"tmpAssets/Images/{num_of_img}image.png"
         image_url = requests.get(url, timeout=5)
-        with open(f"{num_of_img}image.png", "wb") as f:
+        with open(imageLocation, "wb") as f:
             f.write(image_url.content)
-        return f"{num_of_img}image.png"
+        return imageLocation
 
     def generate(self):
         """
         Generate pdf file with text and images
         """
         print("Generating PDF of book")
-        doc = SimpleDocTemplate("output.pdf", pagesize=letter)
+        doc = SimpleDocTemplate("tmpAssets/output.pdf", pagesize=letter)
         content = []
         for ind, text in enumerate(self.text_pages):
-            font_name = "Helvetica"
-            title_style = getSampleStyleSheet()["Title"]
-            title_style.fontSize = 35
-            title_style.fontName = font_name
-            #
-            paragraph_style = getSampleStyleSheet()["BodyText"]
-            paragraph_style.fontSize = 25
-            paragraph_style.leading = 22
-            paragraph_style.fontName = font_name
-
-            page_title = Paragraph(
-                text["title"] + "<br/><br/><br/>", title_style
-            )
+            image, page_title, paragraph = self.buildContent(ind, text)
             content.append(page_title)
-
-            paragraph_text = text["story"].replace(".", ".<br/><br/><br/>")
-            paragraph = Paragraph(paragraph_text, paragraph_style)
             content.append(paragraph)
-
             content.append(PageBreak())
-
-            image = Image(self.images_lst[ind])
-            image.drawHeight = 500
-            image.drawWidth = 500
             content.append(image)
-
             content.append(PageBreak())
 
         doc.build(content)
+
+    def buildContent(self, ind, text):
+        page_title, paragraph = self.buildText(text)
+        image = self.buildImage(ind)
+        return image, page_title, paragraph
+
+    def buildImage(self, ind):
+        image = Image(self.images_lst[ind])
+        image.drawHeight = 500
+        image.drawWidth = 500
+        return image
+
+    def buildText(self, text):
+        font_name = "Helvetica"
+        title_style = getSampleStyleSheet()["Title"]
+        title_style.fontSize = 35
+        title_style.fontName = font_name
+        #
+        paragraph_style = getSampleStyleSheet()["BodyText"]
+        paragraph_style.fontSize = 25
+        paragraph_style.leading = 22
+        paragraph_style.fontName = font_name
+        page_title = Paragraph(
+            text["title"] + "<br/><br/><br/>", title_style
+        )
+        paragraph_text = text["story"].replace(".", ".<br/><br/><br/>")
+        paragraph = Paragraph(paragraph_text, paragraph_style)
+        return page_title, paragraph
 
     def to_dict(self):
         print("Converting book data to dict")
@@ -70,6 +78,10 @@ class Book:
             "text_pages": self.text_pages,
             "image_urls": self.image_urls
         }
+    def cleanAssets(self):
+        print("Deleting image files")
+        for imageFile in self.images_lst:
+            os.remove(imageFile)
 
 
 if __name__ == "__main__":
@@ -80,11 +92,11 @@ if __name__ == "__main__":
         },
         {
             "title": "Cat",
-            "story": "Stoty about a cat Stoty about a cat Stoty about a cat Stoty about a cat Stoty about a cat",
+            "story": "Story about a cat Story about a cat Story about a cat Story about a cat Story about a cat",
         },
         {
             "title": "Horse",
-            "story": "Stoty about a horse Stoty about a horse Stoty about a horse Stoty about a horse ",
+            "story": "Story about a horse Story about a horse Story about a horse Story about a horse ",
         },
     ]
     images = [
@@ -94,4 +106,3 @@ if __name__ == "__main__":
     ]
     book = Book(texts, images)
     book.generate()
-    os.startfile("output.pdf")
