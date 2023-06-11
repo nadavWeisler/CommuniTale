@@ -1,4 +1,5 @@
 from openai.error import RateLimitError
+import os
 
 from BookGenerator.TextGenerator import TextGenerator
 from BookGenerator.PromptGenerator import PromptGenerator
@@ -12,6 +13,7 @@ class BookGenerator:
         self.stories = []
         self.imagePrompts = []
         self.images = []
+
 
     def getBook(self, request: dict, numPages=5):
         """
@@ -43,7 +45,7 @@ class BookGenerator:
         try:
             self.stories = TextGenerator().getStoriesFromPrompt(messages=textPrompts, n=numPages)
             self.imagePrompts = [PromptGenerator().getImagePromptFromStory(story['story']) for story in self.stories]
-            self.images = [ImageGenerator().getImageFromPrompt(imagePrompt) for imagePrompt in self.imagePrompts]
+            self.images = [ImageGenerator().getImageFromPrompt(prompt=imagePrompt) for imagePrompt in self.imagePrompts]
         except RateLimitError:
             print("Got RateLimitError, retrying until sombody stops me")
             return self.getBookAssets(numPages=numPages, request=request)
@@ -51,6 +53,7 @@ class BookGenerator:
     def generateBook(self):
         book = Book(self.stories, self.images)
         book.generate()
+        book.cleanAssets()
         return book
 
 

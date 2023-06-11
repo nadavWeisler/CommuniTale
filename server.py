@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 import json
+import os
 
 from BookGenerator.BookGenerator import BookGenerator
 from BookGenerator.Book import Book
@@ -20,6 +21,10 @@ def book():
     if not request.json:
         return jsonify({'error': 'No id provided'}), 400
     print(request.json)
+    if not os.path.isdir("tmpAssets"):
+        os.mkdir("tmpAssets")
+    if not os.path.isdir("tmpAssets/Images"):
+        os.mkdir("tmpAssets/Images")
     result: Book = BookGenerator().getBook(request.json)
     print(result.to_dict().get('text_pages'))
     return jsonify(result.to_dict()), 200
@@ -33,13 +38,13 @@ def send_pdf():
         # Preflight request. Reply successfully:
         return jsonify({'success': True}), 200
 
-    pdf_file = "output.pdf"
+    pdf_file = "/tmpAssets/output.pdf"
 
     with open(pdf_file, 'rb') as f:
         data = f.read()
     response = make_response(data)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=tmpAssets/output.pdf'
     return response
 
 
